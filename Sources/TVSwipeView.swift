@@ -14,12 +14,12 @@ enum SwipeViewAlignment {
     case center
 }
 
-protocol TVSwipeViewDataSource {
+protocol TVSwipeViewDataSource: NSObjectProtocol {
     func numberOfItems(in swipeView: TVSwipeView) -> Int
     func swipeView(_ swipeView: TVSwipeView, viewForItemAt index: Int, reusing view: UIView?) -> UIView
 }
 
-@objc protocol TVSwipeViewDelegate {
+@objc protocol TVSwipeViewDelegate: NSObjectProtocol {
     @objc optional func swipeViewItemSize(_ swipeView: TVSwipeView) -> CGSize
     @objc optional func swipeViewDidScroll(_ swipeView: TVSwipeView) -> Void
     @objc optional func swipeViewCurrentItemIndexDidChange(_ swipeView: TVSwipeView) -> Void
@@ -90,14 +90,14 @@ class TVSwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
     var defersItemViewLoading = false
 
-    var dataSource: TVSwipeViewDataSource? {   // cannot be connected in IB at this time; must do it in code
+    weak var dataSource: TVSwipeViewDataSource? {   // cannot be connected in IB at this time; must do it in code
         didSet {
             if (dataSource != nil) {
                 reloadData()
             }
         }
     }
-    var delegate: TVSwipeViewDelegate? {  // cannot be connected in IB at this time; must do it in code
+    weak var delegate: TVSwipeViewDelegate? {  // cannot be connected in IB at this time; must do it in code
         didSet {
             if (delegate != nil) {
                 setNeedsLayout()
