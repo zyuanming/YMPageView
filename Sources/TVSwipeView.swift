@@ -580,7 +580,7 @@ class TVSwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         return (time < 0.5) ? 0.5 * pow(time * 2.0, 3.0) : 0.5 * pow(time * 2.0 - 2.0, 3.0) + 1.0
     }
 
-    func step() {
+    @objc func step() {
 
         let currentTime = CFAbsoluteTimeGetCurrent()
         var delta = CGFloat(lastTime - currentTime)
@@ -742,6 +742,7 @@ class TVSwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
     //MARK: - View loading
 
+    @discardableResult
     func loadViewAtIndex(_ index: Int) -> UIView {
         let view = dataSource?.swipeView(self, viewForItemAt: index, reusing: dequeueItemView())
 
@@ -945,7 +946,7 @@ class TVSwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         return false
     }
 
-    func didTap (_ tapGesture: UITapGestureRecognizer) {
+    @objc func didTap (_ tapGesture: UITapGestureRecognizer) {
         let point = tapGesture.location(in: scrollView)
         var index = Int(vertical ? (point.y / (itemSize.height)) : (point.x / (itemSize.width)))
         if (wrapEnabled) {
